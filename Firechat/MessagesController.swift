@@ -24,7 +24,9 @@ class MessagesController: UITableViewController {
     }
     
     func handleNewMessage () {
-        print("here")
+        let newMessageController = NewMessageController()
+        let navController = UINavigationController(rootViewController: newMessageController)
+        present(navController, animated: true, completion: nil)
     }
     
     func checkIfUserIsLoggedIn() {
@@ -34,7 +36,6 @@ class MessagesController: UITableViewController {
         } else {
             let uid = FIRAuth.auth()?.currentUser?.uid
             FIRDatabase.database().reference().child("users").child(uid!).observeSingleEvent(of: .value, with: { (snapshot) in
-                
                 if let dictionary = snapshot.value as? [String: AnyObject]{
                     self.navigationItem.title = dictionary["name"] as? String
                 }
