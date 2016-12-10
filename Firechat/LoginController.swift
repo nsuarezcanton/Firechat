@@ -60,40 +60,6 @@ class LoginController: UIViewController {
         }
     }
     
-    func handleRegister() {
-        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
-            print("Form is not valid.")
-            return
-        }
-        
-        FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: {
-            (user: FIRUser?, error) in
-            if error != nil {
-                print(error!)
-                return
-            }
-            
-            guard let uid = user?.uid else {
-                return
-            }
-            
-            // User succesfully authenticated.
-            
-            let ref = FIRDatabase.database().reference(fromURL: "https://firechat-7ffee.firebaseio.com/")
-            let usersReference = ref.child("users").child(uid)
-            let values = ["name": name, "email": email]
-            usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
-                if err != nil {
-                    print(err!)
-                    return
-                }
-                
-                // User succesfully added to DB
-                self.dismiss(animated: true, completion: nil)
-            })
-        })
-    }
-    
     let nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Name"
@@ -130,11 +96,17 @@ class LoginController: UIViewController {
         return textField
     }()
     
-    let profileImageView: UIImageView = {
+    lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "firebase_logo")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
+        imageView.isUserInteractionEnabled = true
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView))
+        
+        imageView.addGestureRecognizer(tapRecognizer)
+        
         return imageView
     }()
     
