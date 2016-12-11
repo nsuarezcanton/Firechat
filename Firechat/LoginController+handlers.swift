@@ -42,16 +42,30 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
     }
     
     func handleRegister() {
+        // TODO: This guard statement is only preventing the the next function call from crashing. I needs some kind of form valitaion
         guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
             print("Form is not valid.")
             return
         }
         
         FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: {
-            (user: FIRUser?, error) in
+            (user, error) in
             if error != nil {
-                print(error!)
-                return
+                
+                if let errCode = FIRAuthErrorCode(rawValue: error!._code) {
+                    
+                    switch errCode {
+                        case .errorCodeInvalidEmail:
+                            print("invalid email")
+                        case .errorCodeEmailAlreadyInUse:
+                            print("in use")
+                        default:
+                            print("Create User Error: \(error!)")
+                    }
+                }
+                
+            } else {
+                print("all good... continue")
             }
             
             guard let uid = user?.uid else {

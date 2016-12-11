@@ -20,8 +20,8 @@ class LoginController: UIViewController {
         return view
     }()
     
-    lazy var loginRegisterButton: UIButton = {
-        let button = UIButton(type: .system)
+    lazy var loginRegisterButton: LoadingButton = {
+        let button = LoadingButton(type: .system)
         button.backgroundColor = UIColor(r: 228, g: 87, b: 46)
         button.setTitle("Register", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
@@ -37,6 +37,7 @@ class LoginController: UIViewController {
     }()
     
     func handleRegisterLogin(){
+        loginRegisterButton.showLoading()
         if loginRegisterSegmentedControl.selectedSegmentIndex == 0 {
             handleLogin()
         } else {

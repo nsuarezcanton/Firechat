@@ -14,6 +14,7 @@
 		0335D8F11DF59ED60048BD22 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0335D8EF1DF59ED60048BD22 /* LaunchScreen.storyboard */; };
 		0335D8FA1DF5A25D0048BD22 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0335D8F91DF5A25D0048BD22 /* LoginController.swift */; };
 		0335D8FC1DF600380048BD22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0335D8FB1DF600380048BD22 /* GoogleService-Info.plist */; };
+		0343B9151DFCCCC300E8304F /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0343B9141DFCCCC300E8304F /* LoadingButton.swift */; };
 		03E247971DF845F50012E2D1 /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E247961DF845F50012E2D1 /* NewMessageController.swift */; };
 		03E2479A1DF98FEE0012E2D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E247991DF98FEE0012E2D1 /* User.swift */; };
 		03E2479C1DF9A8A90012E2D1 /* LoginController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E2479B1DF9A8A90012E2D1 /* LoginController+handlers.swift */; };
@@ -30,6 +31,7 @@
 		0335D8F21DF59ED60048BD22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0335D8F91DF5A25D0048BD22 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		0335D8FB1DF600380048BD22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0343B9141DFCCCC300E8304F /* LoadingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
 		03E247961DF845F50012E2D1 /* NewMessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
 		03E247991DF98FEE0012E2D1 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		03E2479B1DF9A8A90012E2D1 /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 		0335D8E51DF59ED60048BD22 /* Firechat */ = {
 			isa = PBXGroup;
 			children = (
+				0343B9131DFCCC9D00E8304F /* UIElements */,
 				03E247981DF98FC40012E2D1 /* Model */,
 				0335D8F81DF5A21A0048BD22 /* Controller */,
 				0335D8E61DF59ED60048BD22 /* AppDelegate.swift */,
@@ -92,6 +95,14 @@
 				03E2479B1DF9A8A90012E2D1 /* LoginController+handlers.swift */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		0343B9131DFCCC9D00E8304F /* UIElements */ = {
+			isa = PBXGroup;
+			children = (
+				0343B9141DFCCCC300E8304F /* LoadingButton.swift */,
+			);
+			name = UIElements;
 			sourceTree = "<group>";
 		};
 		03E247981DF98FC40012E2D1 /* Model */ = {
@@ -245,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				03E247971DF845F50012E2D1 /* NewMessageController.swift in Sources */,
+				0343B9151DFCCCC300E8304F /* LoadingButton.swift in Sources */,
 				0335D8E91DF59ED60048BD22 /* MessagesController.swift in Sources */,
 				03E2479C1DF9A8A90012E2D1 /* LoginController+handlers.swift in Sources */,
 				0335D8FA1DF5A25D0048BD22 /* LoginController.swift in Sources */,
