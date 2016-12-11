@@ -36,31 +36,6 @@ class LoginController: UIViewController {
         return button
     }()
     
-    func handleRegisterLogin(){
-        loginRegisterButton.showLoading()
-        if loginRegisterSegmentedControl.selectedSegmentIndex == 0 {
-            handleLogin()
-        } else {
-            handleRegister()
-        }
-    }
-    
-    func handleLogin() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else {
-            print("Form is not valid.")
-            return
-        }
-        
-        FIRAuth.auth()?.signIn(withEmail: email, password: password) { (user, error) in
-            if error != nil {
-                print(error!)
-                return
-            }
-            // Succesfully logged in a user
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
     let nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Name"
@@ -122,6 +97,40 @@ class LoginController: UIViewController {
         return sc
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Do any additional setup after loading the view.
+        view.backgroundColor = UIColor(r: 229, g: 143, b: 101)
+        
+        view.addSubview(inputsContainerView)
+        view.addSubview(loginRegisterButton)
+        view.addSubview(profileImageView)
+        view.addSubview(loginRegisterSegmentedControl)
+        
+        setInputsContainerView()
+        setLoginRegisterButton()
+        setProfileImageView()
+        setLoginRegisterSegmentedControl()
+        
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    // Calls the appropiate handler (LoginController+handlers.swift)
+    func handleRegisterLogin(){
+        loginRegisterButton.showLoading()
+        if loginRegisterSegmentedControl.selectedSegmentIndex == 0 {
+            handleLogin()
+        } else {
+            handleRegister()
+        }
+    }
+    
+    
+    // Updates the view with the right fields depending on Login/Register functionality
     func handleLoginRegisterChange() {
         let title = loginRegisterSegmentedControl.titleForSegment(at: loginRegisterSegmentedControl.selectedSegmentIndex)
         loginRegisterButton.setTitle(title, for: .normal)
@@ -145,34 +154,15 @@ class LoginController: UIViewController {
         passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 1/2 : 1/3)
         passwordTextFieldHeightAnchor?.isActive = true
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor(r: 229, g: 143, b: 101)
-        
-        view.addSubview(inputsContainerView)
-        view.addSubview(loginRegisterButton)
-        view.addSubview(profileImageView)
-        view.addSubview(loginRegisterSegmentedControl)
-        
-        setInputsContainerView()
-        setLoginRegisterButton()
-        setProfileImageView()
-        setLoginRegisterSegmentedControl()
-        
-    }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
+    // Constraint references
     var inputsContainerViewHeightAnchor: NSLayoutConstraint?
     var nameTextFieldHeightAnchor: NSLayoutConstraint?
     var emailTextFieldHeightAnchor: NSLayoutConstraint?
     var passwordTextFieldHeightAnchor: NSLayoutConstraint?
     
+    
+    // Following functions are in charge of setting up Login view.
     func setInputsContainerView() {
         // Need X, Y, width, height constraints
         inputsContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

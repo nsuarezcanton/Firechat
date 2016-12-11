@@ -10,15 +10,8 @@ import UIKit
 import Firebase
 
 extension LoginController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func handleSelectProfileImageView() {
-        let profileImagePicker = UIImagePickerController()
-        
-        profileImagePicker.delegate = self
-        profileImagePicker.allowsEditing = true
-        
-        present(profileImagePicker, animated: true, completion: nil)
-    }
     
+    // IMAGE PICKER FUNCTIONS
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         var selectedImageFromPicker: UIImage?
@@ -41,8 +34,10 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
         dismiss(animated: true, completion: nil)
     }
     
+    
+    // HANDLERS
     func handleRegister() {
-        // TODO: This guard statement is only preventing the the next function call from crashing. I needs some kind of form valitaion
+        // TODO: This guard statement is only preventing the the next function call from crashing. I needs some kind of form valitaion.
         guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
             print("Form is not valid.")
             return
@@ -51,9 +46,8 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
         FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: {
             (user, error) in
             if error != nil {
-                
                 if let errCode = FIRAuthErrorCode(rawValue: error!._code) {
-                    
+                    self.loginRegisterButton.hideLoading()
                     switch errCode {
                         case .errorCodeInvalidEmail:
                             print("invalid email")
@@ -90,6 +84,32 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
                 })
             }
         })
+    }
+    
+    func handleLogin() {
+        guard let email = emailTextField.text, let password = passwordTextField.text else {
+            print("Form is not valid.")
+            return
+        }
+        
+        FIRAuth.auth()?.signIn(withEmail: email, password: password) { (user, error) in
+            // TODO: Add error handling. Similar to that in handleRegister()
+            if error != nil {
+                print(error!)
+                return
+            }
+            // Succesfully logged in a user
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func handleSelectProfileImageView() {
+        let profileImagePicker = UIImagePickerController()
+        
+        profileImagePicker.delegate = self
+        profileImagePicker.allowsEditing = true
+        
+        present(profileImagePicker, animated: true, completion: nil)
     }
     
     private func registerUserIntoDatabaseWithUID(uid: String, values: [String: AnyObject]) {

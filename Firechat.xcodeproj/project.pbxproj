@@ -73,7 +73,7 @@
 		0335D8E51DF59ED60048BD22 /* Firechat */ = {
 			isa = PBXGroup;
 			children = (
-				0343B9131DFCCC9D00E8304F /* UIElements */,
+				0343B9131DFCCC9D00E8304F /* View */,
 				03E247981DF98FC40012E2D1 /* Model */,
 				0335D8F81DF5A21A0048BD22 /* Controller */,
 				0335D8E61DF59ED60048BD22 /* AppDelegate.swift */,
@@ -97,12 +97,12 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		0343B9131DFCCC9D00E8304F /* UIElements */ = {
+		0343B9131DFCCC9D00E8304F /* View */ = {
 			isa = PBXGroup;
 			children = (
 				0343B9141DFCCCC300E8304F /* LoadingButton.swift */,
 			);
-			name = UIElements;
+			name = View;
 			sourceTree = "<group>";
 		};
 		03E247981DF98FC40012E2D1 /* Model */ = {
