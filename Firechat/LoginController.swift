@@ -74,10 +74,12 @@ class LoginController: UIViewController {
     
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "firebase_logo")
+        imageView.image = UIImage(named: "add_profile_image_icon")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
+        imageView.layer.cornerRadius = 60
+        imageView.layer.masksToBounds = true
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView))
         
@@ -228,8 +230,8 @@ class LoginController: UIViewController {
         // Need X, Y, width, height constraints
         profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         profileImageView.bottomAnchor.constraint(equalTo: loginRegisterSegmentedControl.topAnchor, constant: -12).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 120).isActive = true
         
     }
     
