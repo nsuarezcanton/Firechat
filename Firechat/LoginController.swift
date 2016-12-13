@@ -11,6 +11,8 @@ import Firebase
 
 class LoginController: UIViewController {
     
+    var messagesController: MessagesController?
+    
     let inputsContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
@@ -155,6 +157,8 @@ class LoginController: UIViewController {
         passwordTextFieldHeightAnchor?.isActive = false
         passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? 1/2 : 1/3)
         passwordTextFieldHeightAnchor?.isActive = true
+        
+        profileImageView.isHidden = loginRegisterSegmentedControl.selectedSegmentIndex == 0 ? true : false
     }
     
     // Constraint references

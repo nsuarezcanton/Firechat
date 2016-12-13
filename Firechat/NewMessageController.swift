@@ -21,6 +21,8 @@ class NewMessageController: UITableViewController {
         
         tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         
+        tableView.tableFooterView = UIView()
+        
         fetchUser()
     }
     
@@ -50,6 +52,10 @@ class NewMessageController: UITableViewController {
         let user = users[indexPath.row]
         cell.textLabel?.text = user.name
         cell.detailTextLabel?.text = user.email
+        
+        cell.preservesSuperviewLayoutMargins = false
+        cell.separatorInset = UIEdgeInsets.zero
+        cell.layoutMargins = UIEdgeInsets.zero
         
         if let profileImageUrl = user.profileImageUrl {
             cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
