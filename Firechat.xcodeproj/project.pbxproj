@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0327818A1E031F3300588B11 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032781891E031F3300588B11 /* Message.swift */; };
+		0327818C1E034C6300588B11 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327818B1E034C6300588B11 /* UserCell.swift */; };
 		0335D8E71DF59ED60048BD22 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0335D8E61DF59ED60048BD22 /* AppDelegate.swift */; };
 		0335D8E91DF59ED60048BD22 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0335D8E81DF59ED60048BD22 /* MessagesController.swift */; };
 		0335D8EC1DF59ED60048BD22 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0335D8EA1DF59ED60048BD22 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		032781891E031F3300588B11 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		0327818B1E034C6300588B11 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		0335D8E31DF59ED60048BD22 /* Firechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Firechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0335D8E61DF59ED60048BD22 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0335D8E81DF59ED60048BD22 /* MessagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesController.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				0343B9141DFCCCC300E8304F /* LoadingButton.swift */,
+				0327818B1E034C6300588B11 /* UserCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				0335D8FA1DF5A25D0048BD22 /* LoginController.swift in Sources */,
 				0327818A1E031F3300588B11 /* Message.swift in Sources */,
 				03E2479A1DF98FEE0012E2D1 /* User.swift in Sources */,
+				0327818C1E034C6300588B11 /* UserCell.swift in Sources */,
 				0335D8E71DF59ED60048BD22 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

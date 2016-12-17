@@ -81,6 +81,10 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate {
         
         let toId = user!.id!
         let fromId = FIRAuth.auth()!.currentUser!.uid
+        
+        
+        
+        
         let timestamp = NSDate().timeIntervalSince1970
         
         let values = ["text": inputTextField.text!, "toId": toId, "fromId": fromId, "timestamp": timestamp] as [String : Any]

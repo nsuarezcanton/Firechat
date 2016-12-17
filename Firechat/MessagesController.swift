@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 
 class MessagesController: UITableViewController {
+    
+    let cellId = "cellId"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,12 +19,13 @@ class MessagesController: UITableViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         
-//        let newMessageIcon = UIImage(named: "new_message_icon")
+        tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New", style: .plain, target: self, action: #selector(handleNewMessage))
         
-        checkIfUserIsLoggedIn()
+        tableView.tableFooterView = UIView()
         
+        checkIfUserIsLoggedIn()
         observeMessages()
     }
     
@@ -49,10 +52,11 @@ class MessagesController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! UserCell
         
         let message = messages[indexPath.row]
-        cell.textLabel?.text = message.text
+        cell.message = message
         
         return cell
     }
@@ -80,8 +84,6 @@ class MessagesController: UITableViewController {
         FIRDatabase.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let dictionary = snapshot.value as? [String: AnyObject] {
-//                self.navigationItem.title = dictionary["name"] as? String
-                
                 let currentUser = User()
                 currentUser.setValuesForKeys(dictionary)
                 self.setUpNavBarWithUser(user: currentUser)
@@ -134,7 +136,6 @@ class MessagesController: UITableViewController {
         
         
         self.navigationItem.titleView = titleView
-//        titleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showChatController)))
     }
     
     func showChatControllerForUser(user: User) {
@@ -153,6 +154,10 @@ class MessagesController: UITableViewController {
         let loginController = LoginController()
         loginController.messagesController = self
         present(loginController, animated: true, completion: nil)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 72
     }
 
 }
