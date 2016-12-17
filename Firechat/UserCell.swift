@@ -70,7 +70,8 @@ class UserCell: UITableViewCell {
         let now = DateInRegion()
         let parsedTimestamp = try! DateInRegion(string: timestamp, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
         
-        if now.day > parsedTimestamp.day {
+        // Comparison with granularity to display date in meaningful format
+        if now.isAfter(date: parsedTimestamp, granularity: Calendar.Component.day) {
             return parsedTimestamp.string(dateStyle: .short, timeStyle: .none)
         }
         
