@@ -24,7 +24,6 @@ class UserCell: UITableViewCell {
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.text = "HH:MM:SS"
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.lightGray
         label.textAlignment = NSTextAlignment.right
@@ -34,24 +33,36 @@ class UserCell: UITableViewCell {
     
     var message: Message? {
         didSet {
-            if let toId = message?.toId {
-                let userReference = FIRDatabase.database().reference().child("users").child(toId)
-                userReference.observeSingleEvent(of: .value, with: { (snapshot) in
-                    
-                    if let dictionary = snapshot.value as? [String: AnyObject] {
-                        self.textLabel?.text = dictionary["name"] as? String
-                        
-                        if let profileImageUrl = dictionary["profileImageUrl"] as? String {
-                            self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
-                        }
-                    }
-                })
-                
-            }
+            setUpNameAndProfileImage()
             
             detailTextLabel?.text = message?.text
             // This seems dangerous!!
             timeLabel.text = formatDateFrom(timestamp: (message?.timestamp)!)
+        }
+    }
+    
+    private func setUpNameAndProfileImage() {
+        let chatPartnerId: String?
+        
+        if message?.fromId == FIRAuth.auth()?.currentUser?.uid {
+            chatPartnerId = message?.toId
+        } else {
+            chatPartnerId = message?.fromId
+        }
+        
+        
+        if let id = chatPartnerId {
+            let userReference = FIRDatabase.database().reference().child("users").child(id)
+            userReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    self.textLabel?.text = dictionary["name"] as? String
+                    
+                    if let profileImageUrl = dictionary["profileImageUrl"] as? String {
+                        self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
+                    }
+                }
+            })
         }
     }
     

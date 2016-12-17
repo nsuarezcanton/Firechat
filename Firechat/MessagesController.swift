@@ -27,11 +27,49 @@ class MessagesController: UITableViewController {
         tableView.tableFooterView = UIView()
         
         checkIfUserIsLoggedIn()
-        observeMessages()
+        observeUserMessages()
     }
     
     var messages = [Message]()
     var messagesDictionary = [String: Message]()
+    
+    func observeUserMessages() {
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
+        
+        let userMessagesRef = FIRDatabase.database().reference().child("user-messages").child(uid)
+        
+        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+            let messageId = snapshot.key
+            let messageRef = FIRDatabase.database().reference().child("messages").child(messageId)
+            
+            messageRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    let message = Message()
+                    message.setValuesForKeys(dictionary)
+                    self.messages.append(message)
+                    
+                    if let toId = message.toId {
+                        self.messagesDictionary[toId] = message
+                        
+                        self.messages = Array(self.messagesDictionary.values)
+                        self.messages.sort(by: { (message1, message2) -> Bool in
+                            let timestamp1 = try! DateInRegion(string: message1.timestamp!, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
+                            let timestamp2 = try! DateInRegion(string: message2.timestamp!, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
+                            
+                            return timestamp1 > timestamp2
+                        })
+                    }
+                    
+                    DispatchQueue.main.async(execute: {
+                        self.tableView.reloadData()
+                    })
+                }
+            })
+            
+        }, withCancel: nil)
+    }
     
     func observeMessages() {
         let dbRef = FIRDatabase.database().reference().child("messages")
@@ -107,6 +145,14 @@ class MessagesController: UITableViewController {
     }
     
     func setUpNavBarWithUser(user: User) {
+        
+        messages.removeAll()
+        messagesDictionary.removeAll()
+        tableView.reloadData()
+        
+        observeUserMessages()
+        
+        
         let titleView = UIView()
         
         titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 40)

@@ -90,7 +90,21 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate {
         let values = ["text": inputTextField.text!, "toId": toId, "fromId": fromId, "timestamp": timestamp] as [String : Any]
         
         inputTextField.text = ""
-        childRef.updateChildValues(values)
+        
+        childRef.updateChildValues(values) { (error, childRef) in
+            if error != nil {
+                print(error!)
+                return
+            }
+            
+            let userMessagesRef = FIRDatabase.database().reference().child("user-messages").child(fromId)
+            let messageId = childRef.key
+            userMessagesRef.updateChildValues([messageId: 1])
+            
+            let recipientUserMessagesRef = FIRDatabase.database().reference().child("user-messages").child(toId)
+            recipientUserMessagesRef.updateChildValues([messageId: 1])
+            
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
