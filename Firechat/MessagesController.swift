@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SwiftDate
 
 class MessagesController: UITableViewController {
     
@@ -30,6 +31,7 @@ class MessagesController: UITableViewController {
     }
     
     var messages = [Message]()
+    var messagesDictionary = [String: Message]()
     
     func observeMessages() {
         let dbRef = FIRDatabase.database().reference().child("messages")
@@ -39,6 +41,18 @@ class MessagesController: UITableViewController {
                 let message = Message()
                 message.setValuesForKeys(dictionary)
                 self.messages.append(message)
+                
+                if let toId = message.toId {
+                    self.messagesDictionary[toId] = message
+                    
+                    self.messages = Array(self.messagesDictionary.values)
+                    self.messages.sort(by: { (message1, message2) -> Bool in
+                        let timestamp1 = try! DateInRegion(string: message1.timestamp!, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
+                        let timestamp2 = try! DateInRegion(string: message2.timestamp!, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
+                        
+                        return timestamp1 > timestamp2
+                    })
+                }
                 
                 DispatchQueue.main.async(execute: {
                     self.tableView.reloadData()

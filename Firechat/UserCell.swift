@@ -12,37 +12,6 @@ import SwiftDate
 
 class UserCell: UITableViewCell {
     
-    var message: Message? {
-        didSet {
-            if let toId = message?.toId {
-                let userReference = FIRDatabase.database().reference().child("users").child(toId)
-                userReference.observeSingleEvent(of: .value, with: { (snapshot) in
-                    
-                    if let dictionary = snapshot.value as? [String: AnyObject] {
-                        self.textLabel?.text = dictionary["name"] as? String
-                        
-                        if let profileImageUrl = dictionary["profileImageUrl"] as? String {
-                            self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
-                        }
-                    }
-                })
-                
-            }
-            
-            detailTextLabel?.text = message?.text
-            
-            if let timestamp = message?.timestamp {
-                let parsedTimestamp = try! DateInRegion(string: timestamp, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
-                // Control flow to either display date or time (depending on how long ago the message was sent)
-                timeLabel.text = parsedTimestamp.string(dateStyle: .short, timeStyle: .short)
-            }
-            
-            
-            
-            
-        }
-    }
-    
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "loading_image_icon")
@@ -62,6 +31,41 @@ class UserCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    var message: Message? {
+        didSet {
+            if let toId = message?.toId {
+                let userReference = FIRDatabase.database().reference().child("users").child(toId)
+                userReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if let dictionary = snapshot.value as? [String: AnyObject] {
+                        self.textLabel?.text = dictionary["name"] as? String
+                        
+                        if let profileImageUrl = dictionary["profileImageUrl"] as? String {
+                            self.profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
+                        }
+                    }
+                })
+                
+            }
+            
+            detailTextLabel?.text = message?.text
+            // This seems dangerous!!
+            timeLabel.text = formatDateFrom(timestamp: (message?.timestamp)!)
+        }
+    }
+    
+    func formatDateFrom (timestamp: String) -> String {
+        let now = DateInRegion()
+        let parsedTimestamp = try! DateInRegion(string: timestamp, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
+        
+        if now.day > parsedTimestamp.day {
+            return parsedTimestamp.string(dateStyle: .short, timeStyle: .none)
+        }
+        
+        return parsedTimestamp.string(dateStyle: .none, timeStyle: .short)
+        
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -96,7 +100,7 @@ class UserCell: UITableViewCell {
     func setUpTimeLabel() {
         timeLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8).isActive = true
         timeLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
-        timeLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        timeLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
         timeLabel.heightAnchor.constraint(equalTo: textLabel!.heightAnchor).isActive = true
     }
     
