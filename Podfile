@@ -10,4 +10,7 @@ target 'Firechat' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
 
+  # Pod for managing Dates
+  pod 'SwiftDate', '~> 4.0'
+
 end

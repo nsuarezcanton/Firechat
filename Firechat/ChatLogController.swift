@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SwiftDate
 
 class ChatLogController: UICollectionViewController, UITextFieldDelegate {
     
@@ -16,6 +17,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate {
             navigationItem.title = user?.name
         }
     }
+    
     
     lazy var inputTextField: UITextField = {
         let textField = UITextField()
@@ -82,12 +84,11 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate {
         let toId = user!.id!
         let fromId = FIRAuth.auth()!.currentUser!.uid
         
-        
-        
-        
-        let timestamp = NSDate().timeIntervalSince1970
+        let now = DateInRegion()
+        let timestamp = now.string(format: .iso8601(options: [.withInternetDateTime]))
         
         let values = ["text": inputTextField.text!, "toId": toId, "fromId": fromId, "timestamp": timestamp] as [String : Any]
+        
         inputTextField.text = ""
         childRef.updateChildValues(values)
     }

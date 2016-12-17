@@ -9,10 +9,20 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SwiftDate.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>01A10CB51A31455EF069C7440747F515</key>
+		<key>6D9ECDEFB06A2947D1B2695A84609AA9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>863A6F2B9B6C641169201C14369333EF</key>
 		<dict>
 			<key>primary</key>
 			<true/>

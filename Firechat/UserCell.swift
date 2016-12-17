@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SwiftDate
 
 class UserCell: UITableViewCell {
     
@@ -30,9 +31,13 @@ class UserCell: UITableViewCell {
             
             detailTextLabel?.text = message?.text
             
-//            let timestamp = message?.timestamp
+            if let timestamp = message?.timestamp {
+                let parsedTimestamp = try! DateInRegion(string: timestamp, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
+                // Control flow to either display date or time (depending on how long ago the message was sent)
+                timeLabel.text = parsedTimestamp.string(dateStyle: .short, timeStyle: .short)
+            }
             
-            // CONVER NSDate to String here
+            
             
             
         }
