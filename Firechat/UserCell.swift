@@ -34,24 +34,13 @@ class UserCell: UITableViewCell {
     var message: Message? {
         didSet {
             setUpNameAndProfileImage()
-            
             detailTextLabel?.text = message?.text
-            // This seems dangerous!!
             timeLabel.text = formatDateFrom(timestamp: (message?.timestamp)!)
         }
     }
     
     private func setUpNameAndProfileImage() {
-        let chatPartnerId: String?
-        
-        if message?.fromId == FIRAuth.auth()?.currentUser?.uid {
-            chatPartnerId = message?.toId
-        } else {
-            chatPartnerId = message?.fromId
-        }
-        
-        
-        if let id = chatPartnerId {
+        if let id = message?.getChatPartnerId() {
             let userReference = FIRDatabase.database().reference().child("users").child(id)
             userReference.observeSingleEvent(of: .value, with: { (snapshot) in
                 
