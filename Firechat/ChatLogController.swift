@@ -205,7 +205,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
             cellHeight = getEstimatedFrameForText(text: text).height + 20
         }
         
-        return CGSize(width: view.frame.width, height: cellHeight!)
+        let screenWidth = UIScreen.main.bounds.width
+        return CGSize(width: screenWidth, height: cellHeight!)
     }
     
     private func getEstimatedFrameForText(text: String) -> CGRect {
