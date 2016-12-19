@@ -69,7 +69,41 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.alwaysBounceVertical = true
+        
+        collectionView?.keyboardDismissMode = .interactive
+        
         setUpInputComponents()
+        setUpKeyboardObservers()
+    }
+    
+    func setUpKeyboardObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func handleKeyboardWillShow (notification: NSNotification) {
+        let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+        let keyboardDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        
+        containerViewBottomAnchor?.constant = -keyboardFrame!.height
+        UIView.animate(withDuration: keyboardDuration!) { 
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    func handleKeyboardWillHide (notification: NSNotification) {
+        let keyboardDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        
+        containerViewBottomAnchor?.constant = 0
+        UIView.animate(withDuration: keyboardDuration!) {
+            self.view.layoutIfNeeded()
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -136,6 +170,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         collectionView?.collectionViewLayout.invalidateLayout()
     }
     
+    var containerViewBottomAnchor: NSLayoutConstraint?
+    
     func setUpInputComponents() {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -145,7 +181,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         // Need X, Y, Width and Height
         containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        containerViewBottomAnchor = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        containerViewBottomAnchor?.isActive = true
         containerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         containerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
@@ -157,8 +194,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         containerView.addSubview(sendButton)
         // Need X, Y, Width and Height
-        sendButton.rightAnchor
-            .constraint(equalTo: containerView.rightAnchor).isActive = true
+        sendButton.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
         sendButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
         sendButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         sendButton.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
