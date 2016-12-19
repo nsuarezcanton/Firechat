@@ -72,9 +72,27 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         collectionView?.keyboardDismissMode = .interactive
         
-        setUpInputComponents()
-        setUpKeyboardObservers()
+//        setUpInputComponents()
+//        setUpKeyboardObservers()
     }
+    
+    override var inputAccessoryView: UIView? {
+        get {
+            let containerView = UIView()
+            
+            containerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+            containerView.backgroundColor = UIColor.lightGray
+            
+            return containerView
+        }
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        get {
+            return true
+        }
+    }
+    
     
     func setUpKeyboardObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
