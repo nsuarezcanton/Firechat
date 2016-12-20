@@ -23,11 +23,12 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     var messages = [Message]()
     
     func observeMessages() {
-        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+        guard let uid = FIRAuth.auth()?.currentUser?.uid, let toId = user?.id else
+        {
             return
         }
         
-        let userMessagesRef = FIRDatabase.database().reference().child("user-messages").child(uid)
+        let userMessagesRef = FIRDatabase.database().reference().child("user-messages").child(uid).child(toId)
     
         userMessagesRef.observe(.childAdded, with: { (snapshot) in
             
@@ -40,7 +41,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 
                 let message = Message()
                 message.setValuesForKeys(messageDictionary)
-                
+
                 if message.getChatPartnerId() == self.user?.id {
                     self.messages.append(message)
                     DispatchQueue.main.async(execute: {
@@ -226,11 +227,11 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 
                 self.inputTextField.text = ""
                 
-                let userMessagesRef = FIRDatabase.database().reference().child("user-messages").child(fromId)
+                let userMessagesRef = FIRDatabase.database().reference().child("user-messages").child(fromId).child(toId)
                 let messageId = childRef.key
                 userMessagesRef.updateChildValues([messageId: 1])
                 
-                let recipientUserMessagesRef = FIRDatabase.database().reference().child("user-messages").child(toId)
+                let recipientUserMessagesRef = FIRDatabase.database().reference().child("user-messages").child(toId).child(fromId)
                 recipientUserMessagesRef.updateChildValues([messageId: 1])
                 
             }

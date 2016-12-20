@@ -41,38 +41,41 @@ class MessagesController: UITableViewController {
         let userMessagesRef = FIRDatabase.database().reference().child("user-messages").child(uid)
         
         userMessagesRef.observe(.childAdded, with: { (snapshot) in
-            let messageId = snapshot.key
-            let messageRef = FIRDatabase.database().reference().child("messages").child(messageId)
+            let userId = snapshot.key
             
-            messageRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                if let dictionary = snapshot.value as? [String: AnyObject] {
-                    let message = Message()
-                    message.setValuesForKeys(dictionary)
-                    self.messages.append(message)
-                    
-                    if let chatPartnerId = message.getChatPartnerId() {
-                        self.messagesDictionary[chatPartnerId] = message
+            FIRDatabase.database().reference().child("user-messages").child(uid).child(userId).observe(.childAdded, with: { (snapshot) in                
+                let messageId = snapshot.key
+                
+                let messageRef = FIRDatabase.database().reference().child("messages").child(messageId)
+                
+                messageRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let dictionary = snapshot.value as? [String: AnyObject] {
+                        let message = Message()
+                        message.setValuesForKeys(dictionary)
+                        self.messages.append(message)
                         
-                        self.messages = Array(self.messagesDictionary.values)
-                        self.messages.sort(by: { (message1, message2) -> Bool in
-                            let timestamp1 = try! DateInRegion(string: message1.timestamp!, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
-                            let timestamp2 = try! DateInRegion(string: message2.timestamp!, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
+                        if let chatPartnerId = message.getChatPartnerId() {
+                            self.messagesDictionary[chatPartnerId] = message
                             
-                            return timestamp1 > timestamp2
-                        })
+                            self.messages = Array(self.messagesDictionary.values)
+                            self.messages.sort(by: { (message1, message2) -> Bool in
+                                let timestamp1 = try! DateInRegion(string: message1.timestamp!, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
+                                let timestamp2 = try! DateInRegion(string: message2.timestamp!, format: .iso8601(options: .withInternetDateTime), fromRegion: nil)
+                                
+                                return timestamp1 > timestamp2
+                            })
+                        }
+                        self.timer?.invalidate()
+                        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
                     }
-                    self.timer?.invalidate()
-                    self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
-                }
+                })
             })
-            
-        }, withCancel: nil)
+        })
     }
     
     var timer: Timer?
     
     func handleReloadTable() {
-        print("Table Reloaded")
         DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
         })
