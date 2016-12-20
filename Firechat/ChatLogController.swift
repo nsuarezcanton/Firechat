@@ -42,13 +42,11 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 let message = Message()
                 message.setValuesForKeys(messageDictionary)
 
-                if message.getChatPartnerId() == self.user?.id {
-                    self.messages.append(message)
-                    DispatchQueue.main.async(execute: {
-                        self.collectionView?.reloadData()
-                        self.scrollToBottom()
-                    })
-                }
+                self.messages.append(message)
+                DispatchQueue.main.async(execute: {
+                    self.collectionView?.reloadData()
+                    self.scrollToBottom()
+                })
             })
             
         }, withCancel: nil)
