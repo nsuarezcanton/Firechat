@@ -38,10 +38,12 @@ class LoginController: UIViewController {
         return button
     }()
     
+    // TODO: LOADS OF REPETIION OVER HERE--ABSTRACT is imperative
     let nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Name"
         textField.translatesAutoresizingMaskIntoConstraints = false
+//        textField.autocapitalizationType = UITextAutocapitalizationType()
         return textField
     }()
     

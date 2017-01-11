@@ -105,6 +105,28 @@ class MessagesController: UITableViewController {
     }
     
     func handleNewMessage () {
+        let alertController = UIAlertController()
+        
+        let newDirectMessage = UIAlertAction(title: "New Direct Message", style: UIAlertActionStyle.default, handler: {(alert :UIAlertAction!) in
+            self.showNewMessageController()
+        })
+        alertController.addAction(newDirectMessage)
+        
+        let newGroup = UIAlertAction(title: "New Group", style: UIAlertActionStyle.default, handler: {(alert :UIAlertAction!) in
+            print("New Group")
+        })
+        alertController.addAction(newGroup)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (alert :UIAlertAction!) in
+            print("User Canceled")
+        }
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+        
+    }
+    
+    func showNewMessageController () {
         let newMessageController = NewMessageController()
         newMessageController.messagesController = self
         let navController = UINavigationController(rootViewController: newMessageController)
