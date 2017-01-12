@@ -113,7 +113,7 @@ class MessagesController: UITableViewController {
         alertController.addAction(newDirectMessage)
         
         let newGroup = UIAlertAction(title: "New Group", style: UIAlertActionStyle.default, handler: {(alert :UIAlertAction!) in
-            print("New Group")
+            self.showNewGroupController()
         })
         alertController.addAction(newGroup)
         
@@ -130,6 +130,13 @@ class MessagesController: UITableViewController {
         let newMessageController = NewMessageController()
         newMessageController.messagesController = self
         let navController = UINavigationController(rootViewController: newMessageController)
+        present(navController, animated: true, completion: nil)
+    }
+    
+    func showNewGroupController () {
+        let newGroupController = NewGroupController()
+        
+        let navController = UINavigationController(rootViewController: newGroupController)
         present(navController, animated: true, completion: nil)
     }
     
