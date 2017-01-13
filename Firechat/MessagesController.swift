@@ -104,6 +104,7 @@ class MessagesController: UITableViewController {
         return cell
     }
     
+    
     func handleNewMessage () {
         let alertController = UIAlertController()
         

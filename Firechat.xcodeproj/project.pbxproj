@@ -24,6 +24,7 @@
 		03E2479A1DF98FEE0012E2D1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E247991DF98FEE0012E2D1 /* User.swift */; };
 		03E2479C1DF9A8A90012E2D1 /* LoginController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E2479B1DF9A8A90012E2D1 /* LoginController+handlers.swift */; };
 		03EFA12D1E26D710001315A8 /* NewGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EFA12C1E26D710001315A8 /* NewGroupController.swift */; };
+		03EFA12F1E2851A6001315A8 /* SelectGroupMembersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EFA12E1E2851A6001315A8 /* SelectGroupMembersController.swift */; };
 		44BFE17774CD2C9E9CAF9AB3 /* Pods_Firechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF393FF475A2589EB343FB11 /* Pods_Firechat.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		03E247991DF98FEE0012E2D1 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		03E2479B1DF9A8A90012E2D1 /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
 		03EFA12C1E26D710001315A8 /* NewGroupController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupController.swift; sourceTree = "<group>"; };
+		03EFA12E1E2851A6001315A8 /* SelectGroupMembersController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectGroupMembersController.swift; sourceTree = "<group>"; };
 		B88027FE0F0E1455B838D397 /* Pods-Firechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firechat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Firechat/Pods-Firechat.debug.xcconfig"; sourceTree = "<group>"; };
 		CC437503E1DD85934EC40AF1 /* Pods-Firechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firechat.release.xcconfig"; path = "Pods/Target Support Files/Pods-Firechat/Pods-Firechat.release.xcconfig"; sourceTree = "<group>"; };
 		FF393FF475A2589EB343FB11 /* Pods_Firechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +110,7 @@
 				03E2479B1DF9A8A90012E2D1 /* LoginController+handlers.swift */,
 				0366B4FF1E0074CF00C32AF5 /* ChatLogController.swift */,
 				03EFA12C1E26D710001315A8 /* NewGroupController.swift */,
+				03EFA12E1E2851A6001315A8 /* SelectGroupMembersController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 				0327818A1E031F3300588B11 /* Message.swift in Sources */,
 				03E2479A1DF98FEE0012E2D1 /* User.swift in Sources */,
 				036012051E06BF0800DD4630 /* ChatMessageCell.swift in Sources */,
+				03EFA12F1E2851A6001315A8 /* SelectGroupMembersController.swift in Sources */,
 				0327818C1E034C6300588B11 /* UserCell.swift in Sources */,
 				0335D8E71DF59ED60048BD22 /* AppDelegate.swift in Sources */,
 			);

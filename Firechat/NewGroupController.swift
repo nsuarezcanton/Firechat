@@ -13,7 +13,7 @@ class NewGroupController: UIViewController, UIImagePickerControllerDelegate, UIN
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancelNewGroup))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Set", style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Set", style: .plain, target: self, action: #selector(handleSetGroup))
         
         view.backgroundColor = UIColor.white
         view.addSubview(groupNameInputContainerView)
@@ -23,6 +23,17 @@ class NewGroupController: UIViewController, UIImagePickerControllerDelegate, UIN
         setGroupImageView()
         
         self.groupNameInput.delegate = self;
+    }
+    
+    func handleSetGroup (){
+        showNewGroupController()
+    }
+    
+    func showNewGroupController () {
+        let selectGroupMembersController = SelectGroupMembersController()
+        
+        let navController = UINavigationController(rootViewController: selectGroupMembersController)
+        present(navController, animated: true, completion: nil)
     }
     
     // VIEWS
