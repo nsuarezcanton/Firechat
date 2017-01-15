@@ -225,10 +225,8 @@ class MessagesController: UITableViewController {
         navigationController?.pushViewController(chatLogController, animated: true)
     }
     
-    func showGroupChatLogControllerFor (users: [User]){
-        let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
-        chatLogController.user = users[0]
-        navigationController?.pushViewController(chatLogController, animated: true)
+    func showGroupChatLogControllerFor (group: Group){
+        print(group)
     }
     
     func handleLogout() {
@@ -239,6 +237,7 @@ class MessagesController: UITableViewController {
         }
         
         let loginController = LoginController()
+        
         loginController.messagesController = self
         present(loginController, animated: true, completion: nil)
     }

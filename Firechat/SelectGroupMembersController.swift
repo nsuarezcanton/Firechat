@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SwiftDate
 
 class SelectGroupMembersController: UITableViewController {
 
@@ -56,13 +57,48 @@ class SelectGroupMembersController: UITableViewController {
     func handleCreateNewGroup () {
         // Upon tapping create, the instance variable selected users sshould contain the users of our new group.
         // Not incredibly pleased with this set up, but it'll do for now.
+//        createGroup()
+//        
         if !selectedUsers.isEmpty{
-            dismiss(animated: true) {
+            createGroup()
+        }
+    }
+    
+    func createGroup() {
+        let dbRef = FIRDatabase.database().reference().child("groups")
+        let childRef = dbRef.childByAutoId()
+        
+        let now = DateInRegion()
+        let timestamp = now.string(format: .iso8601(options: [.withInternetDateTime]))
+        
+        let values = ["name": groupName!, "members": createUserIdArray(), "timestamp": timestamp] as [String : Any]
+
+        childRef.updateChildValues(values) { (error, childRef) in
+            if error != nil {
+                print(error!)
+                return
+            }
+            
+            let group = Group()
+            group.setValuesForKeys(values)
+            
+            self.dismiss(animated: true) {
                 self.newGroupController?.dismiss(animated: false, completion: {
-                    self.messagesController?.showGroupChatLogControllerFor(users: self.selectedUsers)
+                    self.messagesController?.showGroupChatLogControllerFor(group: group)
                 })
             }
         }
+    }
+    
+    private func createUserIdArray () -> [String] {
+        var userIdArray = [String]()
+        
+        for user in selectedUsers {
+            userIdArray.append(user.id!)
+        }
+        
+        
+        return userIdArray
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
