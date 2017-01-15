@@ -10,6 +10,9 @@ import UIKit
 
 class NewGroupController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
+    var messagesController: MessagesController?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancelNewGroup))
@@ -26,11 +29,17 @@ class NewGroupController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func handleSetGroup (){
-        showNewGroupController()
+        // This function should take care of checking the form validity
+        // Either directly or through helper functions
+        showSelectGroupMembersController()
+        
     }
     
-    func showNewGroupController () {
+    func showSelectGroupMembersController () {
         let selectGroupMembersController = SelectGroupMembersController()
+        // This will allow for showing group messages from MessagesController
+        selectGroupMembersController.messagesController = self.messagesController
+        selectGroupMembersController.newGroupController = self
         
         let navController = UINavigationController(rootViewController: selectGroupMembersController)
         present(navController, animated: true, completion: nil)

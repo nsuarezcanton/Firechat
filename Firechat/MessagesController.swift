@@ -136,7 +136,7 @@ class MessagesController: UITableViewController {
     
     func showNewGroupController () {
         let newGroupController = NewGroupController()
-        
+        newGroupController.messagesController = self
         let navController = UINavigationController(rootViewController: newGroupController)
         present(navController, animated: true, completion: nil)
     }
@@ -222,6 +222,12 @@ class MessagesController: UITableViewController {
     func showChatControllerForUser(user: User) {
         let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
         chatLogController.user = user
+        navigationController?.pushViewController(chatLogController, animated: true)
+    }
+    
+    func showGroupChatLogControllerFor (users: [User]){
+        let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
+        chatLogController.user = users[0]
         navigationController?.pushViewController(chatLogController, animated: true)
     }
     

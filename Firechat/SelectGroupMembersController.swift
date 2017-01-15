@@ -10,23 +10,24 @@ import UIKit
 import Firebase
 
 class SelectGroupMembersController: UITableViewController {
-    
-    // What's cellId??
+
     let cellId = "cellId"
     var users = [User]()
     var selectedUsers = [User]()
     
+    var newGroupController: NewGroupController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancelNewMessage))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancelNewGroup))
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(handleCreateNewGroup))
         
         tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         
         tableView.tableFooterView = UIView()
-        
-        // Don't really need to activate editing mode. Just need to create a selected state for each row
-        // Editing mode is ueful for deleting from a table view, but not for selecting items.
+
         tableView.isEditing = true
         tableView.allowsMultipleSelectionDuringEditing = true
         
@@ -47,8 +48,20 @@ class SelectGroupMembersController: UITableViewController {
         }, withCancel: nil)
     }
     
-    func handleCancelNewMessage () {
+    func handleCancelNewGroup () {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func handleCreateNewGroup () {
+        // Upon tapping create, the instance variable selected users sshould contain the users of our new group.
+        // Not incredibly pleased with this set up, but it'll do for now.
+        if !selectedUsers.isEmpty{
+            dismiss(animated: true) {
+                self.newGroupController?.dismiss(animated: false, completion: {
+                    self.messagesController?.showGroupChatLogControllerFor(users: self.selectedUsers)
+                })
+            }
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,12 +92,6 @@ class SelectGroupMembersController: UITableViewController {
     var messagesController: MessagesController?
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        dismiss(animated: true) {
-//            let user = self.users[indexPath.row]
-//            self.messagesController?.showChatControllerForUser(user: user)
-//            
-//        }
-        
         // Retrieve user at selected row.
         let user = self.users[indexPath.row]
         
@@ -92,8 +99,6 @@ class SelectGroupMembersController: UITableViewController {
         if !selectedUsers.contains(user) {
             selectedUsers.append(user)
         }
-        
-        print(selectedUsers)
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -108,7 +113,5 @@ class SelectGroupMembersController: UITableViewController {
                 selectedUsers.remove(at: index)
             }
         }
-        
-        print(selectedUsers)
     }
 }
