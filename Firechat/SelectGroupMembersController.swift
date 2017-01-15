@@ -14,6 +14,7 @@ class SelectGroupMembersController: UITableViewController {
     let cellId = "cellId"
     var users = [User]()
     var selectedUsers = [User]()
+    var groupName: String?
     
     var newGroupController: NewGroupController?
     

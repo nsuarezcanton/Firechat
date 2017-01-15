@@ -31,15 +31,20 @@ class NewGroupController: UIViewController, UIImagePickerControllerDelegate, UIN
     func handleSetGroup (){
         // This function should take care of checking the form validity
         // Either directly or through helper functions
-        showSelectGroupMembersController()
         
+        if !(groupNameInput.text?.isEmpty)! {
+            showSelectGroupMembersController(name: groupNameInput.text!)
+        }
+        
+        // Show an alert over here
     }
     
-    func showSelectGroupMembersController () {
+    func showSelectGroupMembersController (name: String) {
         let selectGroupMembersController = SelectGroupMembersController()
         // This will allow for showing group messages from MessagesController
         selectGroupMembersController.messagesController = self.messagesController
         selectGroupMembersController.newGroupController = self
+        selectGroupMembersController.groupName = groupNameInput.text
         
         let navController = UINavigationController(rootViewController: selectGroupMembersController)
         present(navController, animated: true, completion: nil)
