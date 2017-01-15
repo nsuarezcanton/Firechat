@@ -15,7 +15,7 @@ class LoginController: UIViewController {
     
     let inputsContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor(r: 240, g: 240, b: 240)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 5
         view.layer.masksToBounds = true
@@ -24,7 +24,7 @@ class LoginController: UIViewController {
     
     lazy var loginRegisterButton: LoadingButton = {
         let button = LoadingButton(type: .system)
-        button.backgroundColor = UIColor(r: 228, g: 87, b: 46)
+        button.backgroundColor = UIColor(r: 0, g: 122, b: 255)
         button.setTitle("Register", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -85,6 +85,8 @@ class LoginController: UIViewController {
         imageView.layer.cornerRadius = 60
         imageView.layer.masksToBounds = true
         
+        imageView.backgroundColor = UIColor(r: 90, g: 200, b: 250)
+        
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView))
         
         imageView.addGestureRecognizer(tapRecognizer)
@@ -107,7 +109,7 @@ class LoginController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor(r: 229, g: 143, b: 101)
+        view.backgroundColor = UIColor(r: 90, g: 200, b: 250)
         
         view.addSubview(inputsContainerView)
         view.addSubview(loginRegisterButton)

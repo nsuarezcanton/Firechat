@@ -24,6 +24,7 @@ class NewMessageController: UITableViewController {
         tableView.tableFooterView = UIView()
         
         fetchUser()
+        
     }
     
     func fetchUser() {
