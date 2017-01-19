@@ -55,10 +55,8 @@ class SelectGroupMembersController: UITableViewController {
     }
     
     func handleCreateNewGroup () {
-        // Upon tapping create, the instance variable selected users sshould contain the users of our new group.
+        // Upon tapping create, the instance variable selected users should contain the users of our new group.
         // Not incredibly pleased with this set up, but it'll do for now.
-//        createGroup()
-//        
         if !selectedUsers.isEmpty{
             createGroup()
         }
@@ -67,11 +65,21 @@ class SelectGroupMembersController: UITableViewController {
     func createGroup() {
         let dbRef = FIRDatabase.database().reference().child("groups")
         let childRef = dbRef.childByAutoId()
+        let groupId = childRef.key
         
         let now = DateInRegion()
         let timestamp = now.string(format: .iso8601(options: [.withInternetDateTime]))
         
-        let values = ["name": groupName!, "members": createUserIdArray(), "timestamp": timestamp] as [String : Any]
+        var users = getSelectedUserIds()
+        let creatorId = FIRAuth.auth()?.currentUser?.uid
+        
+        // Ensure that creator is also a group member
+        users.append(creatorId!)
+        
+        var values = ["name": groupName!,
+                      "members": users,
+                      "timestamp": timestamp,
+                      "creator": creatorId! ] as [String : Any]
 
         childRef.updateChildValues(values) { (error, childRef) in
             if error != nil {
@@ -79,6 +87,8 @@ class SelectGroupMembersController: UITableViewController {
                 return
             }
             
+            // GroupId is a node in DB. Need value for our data model though.
+            values["id"] = groupId
             let group = Group()
             group.setValuesForKeys(values)
             
@@ -90,7 +100,7 @@ class SelectGroupMembersController: UITableViewController {
         }
     }
     
-    private func createUserIdArray () -> [String] {
+    private func getSelectedUserIds () -> [String] {
         var userIdArray = [String]()
         
         for user in selectedUsers {

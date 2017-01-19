@@ -14,5 +14,6 @@ class Group: NSObject {
     var members = [String]()
     var groupImageUrl: String?
     var timestamp: String?
+    var creator: String?
 }
 

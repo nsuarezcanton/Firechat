@@ -86,12 +86,13 @@ class NewGroupController: UIViewController, UIImagePickerControllerDelegate, UIN
     // Tappable image that prompts the user to pick a picture for the group being created
     lazy var groupImageView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.image = UIImage(named: "add_profile_image_icon")
+        imageView.image = UIImage(named: "upload_group_picture")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 5
         imageView.layer.masksToBounds = true
-        imageView.backgroundColor = UIColor.gray
+        imageView.backgroundColor = UIColor(r: 235, g: 235, b: 235)
+        
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleSelectGroupImageView))
         

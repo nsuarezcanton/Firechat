@@ -227,6 +227,9 @@ class MessagesController: UITableViewController {
     
     func showGroupChatLogControllerFor (group: Group){
         print(group)
+        let chatLogController = GroupChatLogController(collectionViewLayout: UICollectionViewLayout())
+        chatLogController.group = group
+        navigationController?.pushViewController(chatLogController, animated: true)
     }
     
     func handleLogout() {
